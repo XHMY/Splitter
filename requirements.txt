@@ -1,0 +1,7 @@
+python-louvain
+networkx
+texttable
+scipy
+gensim
+torch
+pandas

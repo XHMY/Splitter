@@ -57,8 +57,7 @@ class DeepWalker(object):
                          window=self.args.window_size,
                          min_count=1,
                          sg=1,
-                         workers=self.args.workers,
-                         iter=1)
+                         workers=self.args.workers)
 
-        self.embedding = np.array([list(model[str(n)]) for n in self.graph.nodes()])
+        self.embedding = np.array([model.wv[str(n)] for n in self.graph.nodes()])
         return self.embedding

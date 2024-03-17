@@ -1,5 +1,5 @@
 """Data reading and printing utils."""
-
+import numpy as np
 import pandas as pd
 import networkx as nx
 from texttable import Texttable
@@ -22,6 +22,21 @@ def graph_reader(path):
     :param path: Path to the edge list.
     :return graph: NetworkX object returned.
     """
-    graph = nx.from_edgelist(pd.read_csv(path).values.tolist())
+
+    # Read the edge list from the CSV file
+    edges = np.genfromtxt(path, delimiter=',', skip_header=1, dtype=int)
+
+    # Create a dictionary to map the original node IDs to continuous IDs
+    node_map = {}
+    continuous_id = 0
+    for node_id in np.unique(edges.flatten()):
+        if node_id not in node_map:
+            node_map[node_id] = continuous_id
+            continuous_id += 1
+
+    # Map the original node IDs to continuous IDs in the edge list
+    mapped_edges = np.array([(node_map[edge[0]], node_map[edge[1]]) for edge in edges])
+
+    graph = nx.from_edgelist(mapped_edges)
     graph.remove_edges_from(nx.selfloop_edges(graph))
     return graph

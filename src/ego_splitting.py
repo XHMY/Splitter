@@ -1,6 +1,6 @@
 """Ego-Splitter class"""
 
-import community
+import community.community_louvain as community
 import networkx as nx
 from tqdm import tqdm
 
